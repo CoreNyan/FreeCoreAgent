@@ -73,14 +73,31 @@ public final class FreeCoreAgentPlugin extends JavaPlugin {
                 org.json.simple.parser.JSONParser parser = new org.json.simple.parser.JSONParser();
                 org.json.simple.JSONObject obj = (org.json.simple.JSONObject) parser.parse(reqJson);
                 String id = (String) obj.get("id");
-                String tool = (String) obj.get("tool");
-                org.json.simple.JSONArray argsArr = (org.json.simple.JSONArray) obj.get("args");
-                String[] args = new String[argsArr != null ? argsArr.size() : 0];
-                if (argsArr != null) {
-                    for (int i = 0; i < argsArr.size(); i++) {
-                        args[i] = String.valueOf(argsArr.get(i));
+                String rawTool = (String) obj.get("tool");
+                String tool = rawTool != null ? rawTool.trim() : "";
+                java.util.List<String> argList = new java.util.ArrayList<>();
+
+                // If tool is sent in "toolName(arg1, arg2)" format
+                if (tool.contains("(") && tool.endsWith(")")) {
+                    int pIdx = tool.indexOf('(');
+                    String actualTool = tool.substring(0, pIdx).trim();
+                    String inside = tool.substring(pIdx + 1, tool.length() - 1).trim();
+                    tool = actualTool;
+                    if (!inside.isEmpty()) {
+                        for (String piece : inside.split(",\\s*")) {
+                            argList.add(piece.replaceAll("^[\"']|[\"']$", "").trim());
+                        }
+                    }
+                } else {
+                    org.json.simple.JSONArray argsArr = (org.json.simple.JSONArray) obj.get("args");
+                    if (argsArr != null) {
+                        for (Object o : argsArr) {
+                            argList.add(String.valueOf(o).replaceAll("^[\"']|[\"']$", "").trim());
+                        }
                     }
                 }
+
+                String[] args = argList.toArray(new String[0]);
                 String result = this.toolExecutor.executeTool(tool, args, true);
                 this.redisBridge.publishToolResponse(id, result);
             } catch (Exception e) {

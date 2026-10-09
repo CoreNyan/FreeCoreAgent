@@ -59,6 +59,11 @@ public final class AgentInteractionService {
     public void dispatchPublicChat(AsyncChatEvent event) {
         Player player = event.getPlayer();
         String message = PlainTextComponentSerializer.plainText().serialize(event.message()).trim();
+        dispatchPublicChatDirect(player, message);
+    }
+
+    public void dispatchPublicChatDirect(Player player, String message) {
+        if (message == null || message.isBlank()) return;
 
         // Check if player explicitly mentioned Xiaoke
         boolean isExplicit = isExplicitlyAddressed(message);

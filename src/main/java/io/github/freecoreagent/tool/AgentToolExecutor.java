@@ -54,6 +54,8 @@ public final class AgentToolExecutor {
                     return handleQueryBlockHistory(args);
                 case "query_container":
                     return handleQueryContainer(args);
+                case "list_players":
+                    return handleListPlayers(args);
                 case "check_player":
                     return handleCheckPlayer(args);
                 case "get_seen":
@@ -72,6 +74,19 @@ public final class AgentToolExecutor {
         }
     }
 
+        private String handleListPlayers(String[] args) {
+        var players = Bukkit.getOnlinePlayers();
+        StringBuilder sb = new StringBuilder();
+        sb.append("服务器当前在线玩家 (").append(players.size()).append(" 人):");
+        if (players.isEmpty()) {
+            sb.append(" 当前无玩家在线");
+        } else {
+            for (var p : players) {
+                sb.append(" ").append(p.getName());
+            }
+        }
+        return sb.toString();
+    }
     private String handleProfileSpark(String[] args) {
         try {
             var future = sparkService.runSamplerAsync(15);
