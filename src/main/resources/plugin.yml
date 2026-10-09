@@ -1,0 +1,19 @@
+name: FreeCoreAgent
+version: 1.0.0-beta
+main: io.github.freecoreagent.FreeCoreAgentPlugin
+description: Autonomous Community OP & Player AI Agent for FreeCore Minecraft community.
+api-version: '1.21'
+authors: [LynnH_Ma, CoreNyan]
+commands:
+  freecoreagent:
+    aliases: [fca, agent]
+    description: 管理 FreeCoreAgent 插件
+    usage: /fca <reload|toggle|status|ask>
+    permission: freecoreagent.admin
+permissions:
+  freecoreagent.admin:
+    description: 允许使用 FreeCoreAgent 管理命令
+    default: op
+  freecoreagent.use:
+    description: 允许与小可互动
+    default: true

@@ -1,0 +1,8 @@
+﻿build/
+*.class
+*.jar
+*.log
+sources.txt
+javac-options.txt
+.idea/
+*.iml

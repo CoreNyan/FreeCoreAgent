@@ -1,0 +1,44 @@
+# FreeCoreAgent 配置文件
+# 纯 UTF-8 编码，专职负责游戏内事件监听、Tab 虚拟角色与远程运维工具执行 (Remote Tool RPC)
+
+locale: "zh_CN"
+
+# 大模型 API 设置（兼容 OpenAI / DeepSeek / 任何兼容 API）
+llm:
+  api-key: "YOUR_API_KEY_HERE"
+  base-url: "https://api.deepseek.com/v1"
+  model: "deepseek-chat"
+  temperature: 0.8
+  max-tokens: 500
+  timeout-seconds: 15
+
+# Agent 实体形象设置
+agent:
+  name: "CoreNyan"
+  chat-prefix: "&8[&bFreeCore&8] &7[&6&l小可&7] &d"
+  chat-format: "{prefix}{name}&f: {message}"
+  tab-display: " &7[&6&l小可&7] &dCoreNyan"
+  tab-skin-url: "https://account.lynnhma.xyz/textures/bba1bd32a0b8f50459c6e88d1dd8291e3841f4592b753d88182fc12cb0485623"
+  tab-player:
+    enabled: true
+  tab-skin-value: "ewogICJ0aW1lc3RhbXAiIDogMTc5MTQyNDYyNzkzOSwKICAicHJvZmlsZUlkIiA6ICI1MDMyYTA2NWQ5MWQ0NTgyYjZmODM0MDRlMGYyOTA4MiIsCiAgInByb2ZpbGVOYW1lIiA6ICJNYWNCb29rUHJvTTIiLAogICJzaWduYXR1cmVSZXF1aXJlZCIgOiB0cnVlLAogICJ0ZXh0dXJlcyIgOiB7CiAgICAiU0tJTiIgOiB7CiAgICAgICJ1cmwiIDogImh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzA2ZTgzNjMwMWMzMDlmNWZmY2RhYjQxMDg0MTAyYTIwYjUzMjIwZTk5ZTcwY2ZhNDUwYThmZWVhNDM1NzYwIiwKICAgICAgIm1ldGFkYXRhIiA6IHsKICAgICAgICAibW9kZWwiIDogInNsaW0iCiAgICAgIH0KICAgIH0KICB9Cn0="
+  tab-skin-signature: "HpVXShYxOgT0bJZWWFnoq/cwKCAOsdvB478p2W5FMn6ctJbLtgYjogv4GRjkjJumODUaHT2RdDSyoZPlSgdgzP5YaZRcC3t1fsxeiirdC6e0lYPPCfnbTcbnErJTPlUZnkDdX1viY/xt0mvcA5NUat+NfZXGbOcTMwX4vyT7AX6/5/mIA/Zb8B0YWunJMMcK6nnHoxAHgj1BVVpxMIGk7FIUJCagw0yPwIfAFMgcfOlaLzBxpGFPlPsAxLZQBWjSExbhFwut+7EZ1JuMMTrUdaYNctO47i6uGWYwAu77jKpVV6vmd2XyQQUvWNi8jJmJUZAPwbTfH94RoOsB4WjgP0oFmlbqWPzKZa4ydaqcPKbXbR9XA/lsXdafUhbhmvkr+X7iCC8CCOwINdPAtpWhnv+U3y1FapRJc73pE0BLQXniLhn1cp8xLQR/Z12p89jH0TBKHWQfacE3NrVKLVuJz2njU6Uyl39KuCW0Y+eSz54on1JPWRZMpevLxDFKT+83BzZSPx3/ZSfAm6cWK+6i/IBpotYqINrj8jc1Eaia3kEMD2jCV7Q/IZU7UMnPVmQBxeAjcgMkW9RKTKvVn2/JE3Cs4AhmAKTo3ltKJH16RdsaRZ6RSR+PfTfnJQaQ4P7C3UnVJ6RHle7tZdxKJtBjWUyNhDn93P9dNGz7qEjx8XE="
+
+# 游戏内聊天与事件上报
+modules:
+  public-chat:
+    enabled: true
+    batch-window-seconds: 3
+  private-chat:
+    enabled: true
+
+# Redis 神经总线连接
+redis:
+  host: "127.0.0.1"
+  port: 6379
+  password: "271a4f5a54ad9854d5803a6a74db130d69970e04bed0bc6aab449af3903d14e3"
+
+# 最高服主/管理员白名单
+owners:
+  - "LynnH_Ma"
+  - "Rice"
