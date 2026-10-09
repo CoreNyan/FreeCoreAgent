@@ -7,7 +7,6 @@ import io.github.freecoreagent.tool.AgentToolExecutor;
 import io.papermc.paper.event.player.AsyncChatEvent;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -20,6 +19,7 @@ import java.util.Set;
  * FreeCoreAgent Interaction and Messaging Gateway
  * Forwards player speech directly to Redis freecore:agent:mc:inbound for Central Brain (CoreNyan).
  * Receives broadcast and private replies from Redis and delivers them in-game.
+ * All formatting is strictly managed by LanguageManager.
  */
 public final class AgentInteractionService {
     private final JavaPlugin plugin;
@@ -89,7 +89,7 @@ public final class AgentInteractionService {
             );
             return;
         }
-        player.sendMessage(ChatColor.RED + "CoreNyan 认知中枢暂未连接，请稍后再试。");
+        player.sendMessage(lang.message("chat.not-connected"));
     }
 
     public boolean isExplicitlyAddressed(String message) {
@@ -104,27 +104,24 @@ public final class AgentInteractionService {
 
     public void broadcastAgentMessage(String rawMessage, boolean logToConsole) {
         Bukkit.getScheduler().runTask(plugin, () -> {
-            String prefix = plugin.getConfig().getString("agent.chat-prefix", "&8[&bFreeCore&8] &7[&6&l小可&7] &d");
-            String format = plugin.getConfig().getString("agent.chat-format", "{prefix}{name}&f: {message}");
-            String formatted = format.replace("{prefix}", prefix)
-                    .replace("{name}", getAgentName())
-                    .replace("{message}", rawMessage);
-            String colored = ChatColor.translateAlternateColorCodes('&', formatted);
+            String formatted = lang.message("chat.public-format",
+                    "{prefix}", lang.prefix(),
+                    "{name}", getAgentName(),
+                    "{message}", rawMessage);
 
             for (Player p : Bukkit.getOnlinePlayers()) {
-                p.sendMessage(colored);
+                p.sendMessage(formatted);
             }
-            if (logToConsole) {
-                plugin.getLogger().info("[小可全服广播] " + rawMessage);
-            }
+            plugin.getLogger().info("[小可全服广播] " + rawMessage);
         });
     }
 
     public void sendPrivateAgentMessage(Player player, String rawMessage) {
         Bukkit.getScheduler().runTask(plugin, () -> {
-            String colored = ChatColor.translateAlternateColorCodes('&',
-                    "&7[&d小可 &7-> &f你&7] &f" + rawMessage);
-            player.sendMessage(colored);
+            String formatted = lang.message("chat.private-format-from",
+                    "{sender}", getAgentName(),
+                    "{message}", rawMessage);
+            player.sendMessage(formatted);
         });
     }
 

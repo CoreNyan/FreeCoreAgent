@@ -92,7 +92,7 @@ public final class FreeCoreAgentPlugin extends JavaPlugin {
         this.interaction.setRedisBridge(this.redisBridge);
 
         // Register in-game public chat listener
-        this.getServer().getPluginManager().registerEvents(new WorldEventPerceptionListener(this, this.perception, this.interaction), this);
+        this.getServer().getPluginManager().registerEvents(new WorldEventPerceptionListener(this, this.lang, this.perception, this.interaction), this);
 
         // Register Command Executor
         AgentCommand commandExecutor = new AgentCommand(this, this.lang, this.interaction);

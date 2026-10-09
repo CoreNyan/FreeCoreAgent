@@ -2,32 +2,23 @@ prefix: "&8[&bFreeCore&8] &7[&6&l小可&7] &r"
 
 command:
   no-permission: "&c你没有权限执行此命令！"
-  reload-success: "&aFreeCoreAgent 配置文件与知识库已成功重载！"
-  usage: "&e用法: /fca <reload|toggle|status|ask> [参数]"
+  reload-success: "&aFreeCoreAgent 网关配置文件已成功重载！"
+  usage: "&e用法: /fca <reload|status|issues|say> [参数]"
   status:
-    header: "&6========== [ 小可 (CoreNyan) 状态 ] =========="
-    model: "&e当前使用模型: &b{model}"
-    public-chat: "&e公屏互动状态: {status}"
-    private-chat: "&e私信互动状态: {status}"
-    loaded-skills: "&e已加载知识库技能数: &a{count}"
+    header: "&6========== [ 小可 (CoreNyan) 网关状态 ] =========="
+    gateway: "&e网关身份: &b{name}"
+    brain: "&e认知中枢: &aFreeCore-CoreNyan (Redis 神经总线)"
+    redis: "&eRedis 状态: {status}"
     footer: "&6==========================================="
-  toggle:
-    public: "&e公屏互动功能已切换为: {status}"
-    private: "&e私信互动功能已切换为: {status}"
-    invalid: "&c无效的模块！可用: public, private"
-  ask-usage: "&e用法: /fca ask <问题>"
   only-owner: "&c只有服主/Owner 才能向小可下达管理指令！"
+  msg-usage: "&e用法: /{command} {target} <消息内容>"
 
 chat:
-  thinking: "&7(小可正在思考中...)"
-  private-disabled: "&c小可当前已关闭私信聊天功能哦！"
-  public-disabled: "&c小可当前已开启高冷勿扰模式（公屏互动已关闭）。"
-  rate-limited: "&c别问得太快啦笨蛋！小可脑子要转不过来啦~"
-  error: "&c呜……连接大脑核心超时了，稍后再试吧！"
+  not-connected: "&cCoreNyan 认知中枢暂未连接，请稍后再试。"
   private-format-from: "&7[私聊] &d{sender} &7-> &6你&7: &f{message}"
-  private-format-to: "&7[私聊] &6你 &7-> &d{receiver}&7: &f{message}"
+  private-format-to: "&7[私聊] &6你&7 -> &d{receiver}&7: &f{message}"
   public-format: "{prefix}&f{name}&7: &f{message}"
 
 format:
-  enabled: "&a开启"
-  disabled: "&c关闭"
+  enabled: "&a已连通"
+  disabled: "&c未连通"

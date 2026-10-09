@@ -53,15 +53,17 @@ public final class AgentCommand implements CommandExecutor, TabCompleter {
             if (plugin instanceof io.github.freecoreagent.FreeCoreAgentPlugin fcaPlugin && fcaPlugin.getRedisBridge() != null) {
                 fcaPlugin.getRedisBridge().publishRemoteReload();
             }
-            sender.sendMessage(lang.prefix() + lang.message("command.reload-success") + " (已同步通知全网络子服热重载)");
+            sender.sendMessage(lang.prefix() + lang.message("command.reload-success"));
             return true;
         }
 
         if (sub.equals("status")) {
-            sender.sendMessage(ChatColor.GOLD + "=== FreeCoreAgent 网关状态 ===");
-            sender.sendMessage(ChatColor.YELLOW + "认知中枢: " + ChatColor.GREEN + "FreeCore-CoreNyan (Redis 神经总线)");
-            sender.sendMessage(ChatColor.YELLOW + "Redis 桥接: " + (plugin instanceof io.github.freecoreagent.FreeCoreAgentPlugin fca && fca.getRedisBridge().isRunning() ? ChatColor.GREEN + "已连通" : ChatColor.RED + "未连通"));
-            sender.sendMessage(ChatColor.YELLOW + "网关身份: " + ChatColor.AQUA + interaction.getAgentName());
+            boolean connected = plugin instanceof io.github.freecoreagent.FreeCoreAgentPlugin fca && fca.getRedisBridge().isRunning();
+            sender.sendMessage(lang.message("command.status.header"));
+            sender.sendMessage(lang.message("command.status.gateway", "{name}", interaction.getAgentName()));
+            sender.sendMessage(lang.message("command.status.brain"));
+            sender.sendMessage(lang.message("command.status.redis", "{status}", connected ? lang.message("format.enabled") : lang.message("format.disabled")));
+            sender.sendMessage(lang.message("command.status.footer"));
             return true;
         }
 
