@@ -65,6 +65,24 @@ public final class AgentRedisBridge {
         executeRedisAsync("PUBLISH", CHANNEL_TOOL_RESPONSE, obj.toJSONString());
     }
 
+    public boolean isRunning() {
+        return running;
+    }
+
+    public void publishMcInbound(String senderUuid, String senderName, String message, boolean isExplicit, boolean isPrivate) {
+        org.json.simple.JSONObject obj = new org.json.simple.JSONObject();
+        obj.put("platform", "mc");
+        obj.put("sender_uuid", senderUuid);
+        obj.put("sender_name", senderName);
+        obj.put("nickname", senderName);
+        obj.put("message", message);
+        obj.put("is_at", isExplicit);
+        obj.put("is_mentioned", isExplicit);
+        obj.put("is_private", isPrivate);
+        obj.put("server", serverId);
+        executeRedisAsync("PUBLISH", CHANNEL_MC_INBOUND, obj.toJSONString());
+    }
+
     public void publishMcInbound(String jsonPayload) {
         executeRedisAsync("PUBLISH", CHANNEL_MC_INBOUND, jsonPayload);
     }
